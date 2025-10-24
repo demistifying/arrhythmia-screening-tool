@@ -14,6 +14,10 @@ function initializeApp() {
         input.addEventListener('change', updateProgress);
     });
     
+    // Add name input listener
+    const nameInput = document.getElementById('userName');
+    nameInput.addEventListener('input', updateProgress);
+    
     // Form submission
     form.addEventListener('submit', handleSubmit);
     
@@ -22,11 +26,18 @@ function initializeApp() {
 }
 
 function updateProgress() {
-    const totalQuestions = 9;
+    const totalQuestions = 10; // Including name field
     let answeredQuestions = 0;
     
+    // Check name field
+    const nameInput = document.getElementById('userName');
+    if (nameInput.value.trim()) {
+        answeredQuestions++;
+        document.querySelector('[data-question="0"]').classList.add('answered');
+    }
+    
     // Count answered questions
-    for (let i = 1; i <= totalQuestions; i++) {
+    for (let i = 1; i <= 9; i++) {
         const questionInputs = document.querySelectorAll(`input[name="q${i}"]`);
         const isAnswered = Array.from(questionInputs).some(input => input.checked);
         
@@ -78,20 +89,26 @@ function handleSubmit(e) {
             }
         }
         
+        const userName = document.getElementById('userName').value.trim();
+        
         // Check if all questions are answered (should not happen due to button state)
-        if (answeredQuestions < 9) {
-            showNotification('Please answer all questions before submitting.', 'error');
+        if (answeredQuestions < 10 || !userName) {
+            showNotification('Please complete all fields before submitting.', 'error');
             submitBtn.classList.remove('loading');
             return;
         }
         
+        // Set hidden form fields for Netlify
+        document.getElementById('hiddenScore').value = totalScore;
+        document.getElementById('hiddenDate').value = new Date().toISOString();
+        
         // Display results with animation
-        displayResults(totalScore);
+        displayResults(totalScore, userName);
         submitBtn.classList.remove('loading');
     }, 1500);
 }
 
-function displayResults(score) {
+function displayResults(score, userName) {
     const resultsDiv = document.getElementById('results');
     const scoreElement = document.getElementById('totalScore');
     const scorePercentage = document.getElementById('scorePercentage');
@@ -117,8 +134,12 @@ function displayResults(score) {
     }, 500);
     
     // Generate interpretation
-    const interpretation = generateInterpretation(score, percentage);
+    const interpretation = generateInterpretation(score, percentage, userName);
     interpretationDiv.innerHTML = interpretation;
+    
+    // Set risk level for Netlify form
+    let riskLevel = score <= 9 ? 'Low Risk' : score <= 18 ? 'Moderate Risk' : 'Higher Risk';
+    document.getElementById('hiddenRiskLevel').value = riskLevel;
     
     // Hide form and show results with animation
     const form = document.getElementById('screeningForm');
@@ -195,7 +216,7 @@ function addScoreGradient(ringElement, percentage) {
     ringElement.style.stroke = 'url(#scoreGradient)';
 }
 
-function generateInterpretation(score, percentage) {
+function generateInterpretation(score, percentage, userName) {
     let interpretation = '';
     let riskLevel = '';
     let recommendations = '';
@@ -204,12 +225,12 @@ function generateInterpretation(score, percentage) {
         riskLevel = 'Low Risk';
         interpretation = `
             <div class="risk-badge low-risk">Low Risk</div>
-            <h3>Minimal Arrhythmia Symptoms</h3>
-            <p>Your assessment indicates minimal symptoms associated with arrhythmias. This is a positive result suggesting your heart rhythm symptoms are likely not significant at this time.</p>
+            <h3>Hello ${userName}, Minimal Arrhythmia Symptoms</h3>
+            <p>${userName}, your assessment indicates minimal symptoms associated with arrhythmias. This is a positive result suggesting your heart rhythm symptoms are likely not significant at this time.</p>
         `;
         recommendations = `
             <div class="recommendations">
-                <h4>Recommendations:</h4>
+                <h4>Recommendations for ${userName}:</h4>
                 <ul>
                     <li>Continue maintaining a healthy lifestyle</li>
                     <li>Monitor symptoms and note any changes</li>
@@ -222,12 +243,12 @@ function generateInterpretation(score, percentage) {
         riskLevel = 'Moderate Risk';
         interpretation = `
             <div class="risk-badge moderate-risk">Moderate Risk</div>
-            <h3>Moderate Arrhythmia Symptoms</h3>
-            <p>Your assessment suggests moderate symptoms that may be related to arrhythmias. While not immediately concerning, these symptoms warrant medical attention for proper evaluation.</p>
+            <h3>Hello ${userName}, Moderate Arrhythmia Symptoms</h3>
+            <p>${userName}, your assessment suggests moderate symptoms that may be related to arrhythmias. While not immediately concerning, these symptoms warrant medical attention for proper evaluation.</p>
         `;
         recommendations = `
             <div class="recommendations">
-                <h4>Recommendations:</h4>
+                <h4>Recommendations for ${userName}:</h4>
                 <ul>
                     <li>Schedule an appointment with your healthcare provider</li>
                     <li>Consider keeping a symptom diary</li>
@@ -240,12 +261,12 @@ function generateInterpretation(score, percentage) {
         riskLevel = 'Higher Risk';
         interpretation = `
             <div class="risk-badge high-risk">Higher Risk</div>
-            <h3>Significant Arrhythmia Symptoms</h3>
-            <p>Your assessment indicates significant symptoms that may be associated with arrhythmias. It is important to seek medical evaluation promptly to determine the cause and appropriate treatment.</p>
+            <h3>Hello ${userName}, Significant Arrhythmia Symptoms</h3>
+            <p>${userName}, your assessment indicates significant symptoms that may be associated with arrhythmias. It is important to seek medical evaluation promptly to determine the cause and appropriate treatment.</p>
         `;
         recommendations = `
             <div class="recommendations">
-                <h4>Immediate Recommendations:</h4>
+                <h4>Immediate Recommendations for ${userName}:</h4>
                 <ul>
                     <li><strong>Contact your healthcare provider soon</strong></li>
                     <li>Consider urgent care if symptoms are severe or worsening</li>
@@ -258,7 +279,7 @@ function generateInterpretation(score, percentage) {
     
     return interpretation + recommendations + `
         <div class="disclaimer-box">
-            <p><strong>Important:</strong> This assessment is for informational purposes only and does not constitute medical advice. Always consult with qualified healthcare professionals for proper diagnosis and treatment.</p>
+            <p><strong>Important for ${userName}:</strong> This assessment is for informational purposes only and does not constitute medical advice. Always consult with qualified healthcare professionals for proper diagnosis and treatment.</p>
         </div>
     `;
 }
@@ -302,7 +323,7 @@ function resetForm() {
         
         // Reset progress
         progressFill.style.width = '0%';
-        progressText.textContent = '0 of 9 completed';
+        progressText.textContent = '0 of 10 completed';
         
         // Reset submit button
         submitBtn.disabled = true;

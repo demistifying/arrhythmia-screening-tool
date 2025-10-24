@@ -18,12 +18,20 @@
                 <div class="progress-bar">
                     <div class="progress-fill" id="progressFill"></div>
                 </div>
-                <span class="progress-text" id="progressText">0 of 9 completed</span>
+                <span class="progress-text" id="progressText">0 of 10 completed</span>
             </div>
         </header>
 
-        <form id="screeningForm">
+        <form id="screeningForm" name="arrhythmia-screening" method="POST" data-netlify="true">
+            <input type="hidden" name="form-name" value="arrhythmia-screening">
             <div class="questions" id="questionsContainer">
+                <div class="question-card name-input" data-question="0">
+                    <div class="question-number">👤</div>
+                    <h3>Your Name</h3>
+                    <div class="name-field">
+                        <input type="text" name="name" id="userName" placeholder="Enter your name" required>
+                    </div>
+                </div>
                 <div class="question-card" data-question="1">
                     <div class="question-number">1</div>
                     <h3>Palpitations (feeling of a racing or irregular heartbeat)</h3>
@@ -268,6 +276,9 @@
                 </div>
             </div>
 
+            <input type="hidden" name="total-score" id="hiddenScore">
+            <input type="hidden" name="risk-level" id="hiddenRiskLevel">
+            <input type="hidden" name="assessment-date" id="hiddenDate">
             <button type="submit" class="submit-btn" id="submitBtn" disabled>
                 <span>Calculate Results</span>
                 <div class="btn-loader"></div>

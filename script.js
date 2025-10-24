@@ -8,48 +8,46 @@ function initializeApp() {
     const progressFill = document.getElementById('progressFill');
     const progressText = document.getElementById('progressText');
     
-    // Add event listeners for progress tracking
     const radioInputs = form.querySelectorAll('input[type="radio"]');
     radioInputs.forEach(input => {
         input.addEventListener('change', updateProgress);
     });
     
-    // Add name input listener
     const nameInput = document.getElementById('userName');
     nameInput.addEventListener('input', updateProgress);
     
-    // Form submission
     form.addEventListener('submit', handleSubmit);
     
-    // Add smooth animations to question cards
     animateQuestionCards();
 }
 
 function updateProgress() {
-    const totalQuestions = 10; // Including name field
+    const totalQuestions = 20;
     let answeredQuestions = 0;
     
-    // Check name field
     const nameInput = document.getElementById('userName');
     if (nameInput.value.trim()) {
         answeredQuestions++;
         document.querySelector('[data-question="0"]').classList.add('answered');
     }
     
-    // Count answered questions
-    for (let i = 1; i <= 9; i++) {
-        const questionInputs = document.querySelectorAll(`input[name="q${i}"]`);
+    const questionNames = ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 
+                          'b10', 'b11', 'b12', 'c13', 'c14', 'c15', 'c16', 
+                          'd17', 'd18', 'd19'];
+    
+    questionNames.forEach((name, index) => {
+        const questionInputs = document.querySelectorAll(`input[name="${name}"]`);
         const isAnswered = Array.from(questionInputs).some(input => input.checked);
         
         if (isAnswered) {
             answeredQuestions++;
-            // Add visual feedback to answered question
-            const questionCard = document.querySelector(`[data-question="${i}"]`);
-            questionCard.classList.add('answered');
+            const questionCard = document.querySelector(`[data-question="${index + 1}"]`);
+            if (questionCard) {
+                questionCard.classList.add('answered');
+            }
         }
-    }
+    });
     
-    // Update progress bar
     const progressPercentage = (answeredQuestions / totalQuestions) * 100;
     const progressFill = document.getElementById('progressFill');
     const progressText = document.getElementById('progressText');
@@ -57,7 +55,6 @@ function updateProgress() {
     progressFill.style.width = `${progressPercentage}%`;
     progressText.textContent = `${answeredQuestions} of ${totalQuestions} completed`;
     
-    // Enable submit button when all questions are answered
     const submitBtn = document.getElementById('submitBtn');
     if (answeredQuestions === totalQuestions) {
         submitBtn.disabled = false;
@@ -77,96 +74,98 @@ function handleSubmit(e) {
     const form = e.target;
     const formData = new FormData(form);
     let totalScore = 0;
-    let answeredQuestions = 0;
     
-    // Calculate total score
-    for (let i = 1; i <= 9; i++) {
-        const answer = formData.get(`q${i}`);
+    const questionNames = ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 
+                          'b10', 'b11', 'b12', 'c13', 'c14', 'c15', 'c16', 
+                          'd17', 'd18', 'd19'];
+    
+    questionNames.forEach(name => {
+        const answer = formData.get(name);
         if (answer !== null) {
             totalScore += parseInt(answer);
-            answeredQuestions++;
         }
-    }
+    });
     
     const userName = document.getElementById('userName').value.trim();
     
-    // Recount answered questions for validation
     let validationCount = 0;
     if (userName) validationCount++;
-    for (let i = 1; i <= 9; i++) {
-        const answer = formData.get(`q${i}`);
-        if (answer !== null) validationCount++;
-    }
+    questionNames.forEach(name => {
+        if (formData.get(name) !== null) validationCount++;
+    });
     
-    // Check if all questions are answered
-    if (validationCount < 10 || !userName) {
+    if (validationCount < 20 || !userName) {
         showNotification('Please complete all fields before submitting.', 'error');
         submitBtn.classList.remove('loading');
         return;
     }
     
-    // Set hidden form fields for Netlify
+    const a2Value = parseInt(formData.get('a2') || '0');
+    const a5Value = parseInt(formData.get('a5') || '0');
+    const hasWarningFlags = a2Value === 1 || a5Value === 1;
+    
+    const c13Value = parseInt(formData.get('c13') || '0');
+    const c14Value = parseInt(formData.get('c14') || '0');
+    const c15Value = parseInt(formData.get('c15') || '0');
+    const c16Value = parseInt(formData.get('c16') || '0');
+    const hasRiskFactors = (c13Value + c14Value + c15Value + c16Value) > 0;
+    
     document.getElementById('hiddenScore').value = totalScore;
     document.getElementById('hiddenDate').value = new Date().toISOString();
     
-    // Determine risk level
-    let riskLevel = totalScore <= 9 ? 'Low Risk' : totalScore <= 18 ? 'Moderate Risk' : 'Higher Risk';
+    let riskLevel = totalScore <= 5 ? 'Low Risk' : totalScore <= 12 ? 'Moderate Risk' : 'Higher Risk';
     document.getElementById('hiddenRiskLevel').value = riskLevel;
     
-    // Submit form to Netlify
+    let warningFlags = [];
+    if (a2Value === 1) warningFlags.push('Dizziness/Fainting');
+    if (a5Value === 1) warningFlags.push('Irregular Pulse');
+    document.getElementById('hiddenWarningFlags').value = warningFlags.join(', ');
+    
     fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(new FormData(form)).toString()
     })
     .then(() => {
-        // Display results with animation after successful submission
         setTimeout(() => {
-            displayResults(totalScore, userName);
+            displayResults(totalScore, userName, hasWarningFlags, hasRiskFactors);
             submitBtn.classList.remove('loading');
         }, 1500);
     })
     .catch((error) => {
         console.error('Form submission error:', error);
         showNotification('Submission successful! Viewing your results...', 'info');
-        // Still show results even if submission tracking fails
         setTimeout(() => {
-            displayResults(totalScore, userName);
+            displayResults(totalScore, userName, hasWarningFlags, hasRiskFactors);
             submitBtn.classList.remove('loading');
         }, 1500);
     });
 }
 
-function displayResults(score, userName) {
+function displayResults(score, userName, hasWarningFlags, hasRiskFactors) {
     const resultsDiv = document.getElementById('results');
     const scoreElement = document.getElementById('totalScore');
     const scorePercentage = document.getElementById('scorePercentage');
     const interpretationDiv = document.getElementById('interpretation');
     const scoreRing = document.getElementById('scoreRing');
     
-    // Calculate percentage
-    const percentage = Math.round((score / 27) * 100);
+    const percentage = Math.round((score / 24) * 100);
     
-    // Animate score display
     animateScore(0, score, scoreElement);
     animateScore(0, percentage, scorePercentage, '%');
     
-    // Animate progress ring
-    const circumference = 2 * Math.PI * 50; // radius = 50
+    const circumference = 2 * Math.PI * 50;
     const offset = circumference - (percentage / 100) * circumference;
     
-    // Add SVG gradient
     addScoreGradient(scoreRing, percentage);
     
     setTimeout(() => {
         scoreRing.style.strokeDashoffset = offset;
     }, 500);
     
-    // Generate interpretation
-    const interpretation = generateInterpretation(score, percentage, userName);
+    const interpretation = generateInterpretation(score, percentage, userName, hasWarningFlags, hasRiskFactors);
     interpretationDiv.innerHTML = interpretation;
     
-    // Hide form and show results with animation
     const form = document.getElementById('screeningForm');
     form.style.opacity = '0';
     form.style.transform = 'translateY(-20px)';
@@ -193,7 +192,6 @@ function animateScore(start, end, element, suffix = '') {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
         
-        // Easing function for smooth animation
         const easeOutCubic = 1 - Math.pow(1 - progress, 3);
         const current = Math.round(start + (end - start) * easeOutCubic);
         
@@ -208,7 +206,6 @@ function animateScore(start, end, element, suffix = '') {
 }
 
 function addScoreGradient(ringElement, percentage) {
-    // Create SVG gradient based on score
     const svg = ringElement.closest('svg');
     let defs = svg.querySelector('defs');
     
@@ -221,14 +218,14 @@ function addScoreGradient(ringElement, percentage) {
     gradient.id = 'scoreGradient';
     
     let color1, color2;
-    if (percentage <= 33) {
-        color1 = '#10b981'; // Green
+    if (percentage <= 20) {
+        color1 = '#10b981';
         color2 = '#34d399';
-    } else if (percentage <= 66) {
-        color1 = '#f59e0b'; // Yellow
+    } else if (percentage <= 50) {
+        color1 = '#f59e0b';
         color2 = '#fbbf24';
     } else {
-        color1 = '#ef4444'; // Red
+        color1 = '#ef4444';
         color2 = '#f87171';
     }
     
@@ -241,70 +238,93 @@ function addScoreGradient(ringElement, percentage) {
     ringElement.style.stroke = 'url(#scoreGradient)';
 }
 
-function generateInterpretation(score, percentage, userName) {
+function generateInterpretation(score, percentage, userName, hasWarningFlags, hasRiskFactors) {
     let interpretation = '';
     let riskLevel = '';
     let recommendations = '';
+    let warningSection = '';
     
-    if (score <= 9) {
+    if (hasWarningFlags) {
+        warningSection = `
+            <div class="warning-box">
+                <h4>⚠️ Important Warning Flags</h4>
+                <p>You answered "Yes" to critical symptom questions (dizziness/fainting or irregular pulse). These symptoms warrant medical attention regardless of your total score.</p>
+            </div>
+        `;
+    }
+    
+    if (score <= 5) {
         riskLevel = 'Low Risk';
         interpretation = `
-            <div class="risk-badge low-risk">Low Risk</div>
-            <h3>Hello ${userName}, Minimal Arrhythmia Symptoms</h3>
-            <p>${userName}, your assessment indicates minimal symptoms associated with arrhythmias. This is a positive result suggesting your heart rhythm symptoms are likely not significant at this time.</p>
+            <div class="risk-badge low-risk">Low Likelihood</div>
+            <h3>Hello ${userName}, Low Arrhythmia Symptom Burden</h3>
+            <p>${userName}, your assessment indicates a low likelihood of significant arrhythmia symptoms. Your score of ${score} out of 24 suggests minimal symptom burden at this time.</p>
         `;
         recommendations = `
             <div class="recommendations">
                 <h4>Recommendations for ${userName}:</h4>
                 <ul>
-                    <li>Continue maintaining a healthy lifestyle</li>
-                    <li>Monitor symptoms and note any changes</li>
+                    <li>Continue monitoring your symptoms</li>
+                    <li>Maintain a healthy lifestyle with regular exercise</li>
+                    <li>Practice stress management techniques</li>
                     <li>Regular check-ups with your healthcare provider</li>
-                    <li>Maintain good sleep hygiene and stress management</li>
                 </ul>
             </div>
         `;
-    } else if (score <= 18) {
+    } else if (score <= 12) {
         riskLevel = 'Moderate Risk';
         interpretation = `
-            <div class="risk-badge moderate-risk">Moderate Risk</div>
+            <div class="risk-badge moderate-risk">Moderate Possibility</div>
             <h3>Hello ${userName}, Moderate Arrhythmia Symptoms</h3>
-            <p>${userName}, your assessment suggests moderate symptoms that may be related to arrhythmias. While not immediately concerning, these symptoms warrant medical attention for proper evaluation.</p>
+            <p>${userName}, your assessment suggests a moderate possibility of arrhythmia symptoms. Your score of ${score} out of 24 indicates you should discuss these symptoms with your healthcare provider.</p>
         `;
         recommendations = `
             <div class="recommendations">
                 <h4>Recommendations for ${userName}:</h4>
                 <ul>
-                    <li>Schedule an appointment with your healthcare provider</li>
-                    <li>Consider keeping a symptom diary</li>
-                    <li>Discuss your symptoms and medical history with a doctor</li>
-                    <li>Avoid excessive caffeine and stress when possible</li>
+                    <li><strong>Schedule an appointment with your healthcare provider</strong></li>
+                    <li>Keep a detailed symptom diary (timing, duration, triggers)</li>
+                    <li>Note any patterns with exercise, caffeine, or stress</li>
+                    <li>Discuss potential ECG or cardiac monitoring</li>
+                    ${hasRiskFactors ? '<li><strong>Given your risk factors, evaluation is particularly important</strong></li>' : ''}
                 </ul>
             </div>
         `;
     } else {
         riskLevel = 'Higher Risk';
         interpretation = `
-            <div class="risk-badge high-risk">Higher Risk</div>
-            <h3>Hello ${userName}, Significant Arrhythmia Symptoms</h3>
-            <p>${userName}, your assessment indicates significant symptoms that may be associated with arrhythmias. It is important to seek medical evaluation promptly to determine the cause and appropriate treatment.</p>
+            <div class="risk-badge high-risk">Higher Likelihood</div>
+            <h3>Hello ${userName}, Significant Arrhythmia Symptom Burden</h3>
+            <p>${userName}, your assessment indicates a higher likelihood of arrhythmia-related symptoms or risk. Your score of ${score} out of 24 strongly suggests the need for medical evaluation including ECG/cardiac monitoring.</p>
         `;
         recommendations = `
             <div class="recommendations">
                 <h4>Immediate Recommendations for ${userName}:</h4>
                 <ul>
-                    <li><strong>Contact your healthcare provider soon</strong></li>
-                    <li>Consider urgent care if symptoms are severe or worsening</li>
-                    <li>Keep a detailed record of your symptoms</li>
-                    <li>Avoid strenuous activities until evaluated by a doctor</li>
+                    <li><strong>Contact your healthcare provider promptly</strong></li>
+                    <li><strong>Request ECG and/or cardiac monitoring evaluation</strong></li>
+                    <li>Keep a detailed record of all symptoms with dates and times</li>
+                    <li>Avoid excessive caffeine, alcohol, and strenuous activities until evaluated</li>
+                    ${hasRiskFactors ? '<li><strong>Your risk factors increase the urgency of evaluation</strong></li>' : ''}
+                    <li>Seek urgent care if symptoms worsen or become severe</li>
                 </ul>
             </div>
         `;
     }
     
-    return interpretation + recommendations + `
+    let additionalNotes = '';
+    if (hasRiskFactors && score > 6) {
+        additionalNotes = `
+            <div class="info-box">
+                <h4>ℹ️ Risk Factor Consideration</h4>
+                <p>You indicated having one or more cardiovascular risk factors combined with a moderate or higher score. This increases the importance of prompt medical evaluation.</p>
+            </div>
+        `;
+    }
+    
+    return warningSection + interpretation + recommendations + additionalNotes + `
         <div class="disclaimer-box">
-            <p><strong>Important for ${userName}:</strong> This assessment is for informational purposes only and does not constitute medical advice. Always consult with qualified healthcare professionals for proper diagnosis and treatment.</p>
+            <p><strong>Important for ${userName}:</strong> This assessment is for informational purposes only and does not constitute medical advice, diagnosis, or treatment. The score is based on symptom reporting and risk stratification. Always consult with qualified healthcare professionals for proper evaluation, diagnosis, and treatment. Lifestyle factors raise risk but alone do not confirm arrhythmia.</p>
         </div>
     `;
 }
@@ -326,35 +346,28 @@ function animateQuestionCards() {
 }
 
 function resetForm() {
-    // Reset form with animation
     const form = document.getElementById('screeningForm');
     const results = document.getElementById('results');
     const submitBtn = document.getElementById('submitBtn');
     const progressFill = document.getElementById('progressFill');
     const progressText = document.getElementById('progressText');
     
-    // Animate results out
     results.style.opacity = '0';
     results.style.transform = 'translateY(-20px)';
     
     setTimeout(() => {
-        // Reset form state
         form.reset();
         
-        // Remove answered classes
         document.querySelectorAll('.question-card').forEach(card => {
             card.classList.remove('answered');
         });
         
-        // Reset progress
         progressFill.style.width = '0%';
-        progressText.textContent = '0 of 10 completed';
+        progressText.textContent = '0 of 20 completed';
         
-        // Reset submit button
         submitBtn.disabled = true;
         submitBtn.style.background = '#9ca3af';
         
-        // Show form and hide results
         results.classList.add('hidden');
         form.style.display = 'block';
         form.style.opacity = '0';

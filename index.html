@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrhythmia Self-Screening Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>Arrhythmia Self-Screening Assessment</h1>
+                <p>Please rate how much you've experienced each symptom in the past week</p>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span class="progress-text" id="progressText">0 of 9 completed</span>
+            </div>
+        </header>
+
+        <form id="screeningForm">
+            <div class="questions" id="questionsContainer">
+                <div class="question-card" data-question="1">
+                    <div class="question-number">1</div>
+                    <h3>Palpitations (feeling of a racing or irregular heartbeat)</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="q1" value="0">
+                            <span class="option-text">Not at all</span>
+                            <span class="option-score">0</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q1" value="1">
+                            <span class="option-text">To some extent</span>
+                            <span class="option-score">1</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q1" value="2">
+                            <span class="option-text">Quite a lot</span>
+                            <span class="option-score">2</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q1" value="3">
+                            <span class="option-text">Very much</span>
+                            <span class="option-score">3</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-question="2">
+                    <div class="question-number">2</div>
+                    <h3>Shortness of breath during normal daily activities</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="q2" value="0">
+                            <span class="option-text">Not at all</span>
+                            <span class="option-score">0</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q2" value="1">
+                            <span class="option-text">To some extent</span>
+                            <span class="option-score">1</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q2" value="2">
+                            <span class="option-text">Quite a lot</span>
+                            <span class="option-score">2</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q2" value="3">
+                            <span class="option-text">Very much</span>
+                            <span class="option-score">3</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-question="3">
+                    <div class="question-number">3</div>
+                    <h3>Dizziness or lightheadedness</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="q3" value="0">
+                            <span class="option-text">Not at all</span>
+                            <span class="option-score">0</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q3" value="1">
+                            <span class="option-text">To some extent</span>
+                            <span class="option-score">1</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q3" value="2">
+                            <span class="option-text">Quite a lot</span>
+                            <span class="option-score">2</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q3" value="3">
+                            <span class="option-text">Very much</span>
+                            <span class="option-score">3</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-question="4">
+                    <div class="question-number">4</div>
+                    <h3>Fatigue or tiredness</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="q4" value="0">
+                            <span class="option-text">Not at all</span>
+                            <span class="option-score">0</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q4" value="1">
+                            <span class="option-text">To some extent</span>
+                            <span class="option-score">1</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q4" value="2">
+                            <span class="option-text">Quite a lot</span>
+                            <span class="option-score">2</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q4" value="3">
+                            <span class="option-text">Very much</span>
+                            <span class="option-score">3</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-question="5">
+                    <div class="question-number">5</div>
+                    <h3>Chest discomfort or pain</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="q5" value="0">
+                            <span class="option-text">Not at all</span>
+                            <span class="option-score">0</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q5" value="1">
+                            <span class="option-text">To some extent</span>
+                            <span class="option-score">1</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q5" value="2">
+                            <span class="option-text">Quite a lot</span>
+                            <span class="option-score">2</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q5" value="3">
+                            <span class="option-text">Very much</span>
+                            <span class="option-score">3</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-question="6">
+                    <div class="question-number">6</div>
+                    <h3>Anxiety or worry related to your heart or health</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="q6" value="0">
+                            <span class="option-text">Not at all</span>
+                            <span class="option-score">0</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q6" value="1">
+                            <span class="option-text">To some extent</span>
+                            <span class="option-score">1</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q6" value="2">
+                            <span class="option-text">Quite a lot</span>
+                            <span class="option-score">2</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q6" value="3">
+                            <span class="option-text">Very much</span>
+                            <span class="option-score">3</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-question="7">
+                    <div class="question-number">7</div>
+                    <h3>Difficulty sleeping due to heart-related symptoms</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="q7" value="0">
+                            <span class="option-text">Not at all</span>
+                            <span class="option-score">0</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q7" value="1">
+                            <span class="option-text">To some extent</span>
+                            <span class="option-score">1</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q7" value="2">
+                            <span class="option-text">Quite a lot</span>
+                            <span class="option-score">2</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q7" value="3">
+                            <span class="option-text">Very much</span>
+                            <span class="option-score">3</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-question="8">
+                    <div class="question-number">8</div>
+                    <h3>Weakness or reduced physical capacity</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="q8" value="0">
+                            <span class="option-text">Not at all</span>
+                            <span class="option-score">0</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q8" value="1">
+                            <span class="option-text">To some extent</span>
+                            <span class="option-score">1</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q8" value="2">
+                            <span class="option-text">Quite a lot</span>
+                            <span class="option-score">2</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q8" value="3">
+                            <span class="option-text">Very much</span>
+                            <span class="option-score">3</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-question="9">
+                    <div class="question-number">9</div>
+                    <h3>Swelling in the ankles or legs</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="q9" value="0">
+                            <span class="option-text">Not at all</span>
+                            <span class="option-score">0</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q9" value="1">
+                            <span class="option-text">To some extent</span>
+                            <span class="option-score">1</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q9" value="2">
+                            <span class="option-text">Quite a lot</span>
+                            <span class="option-score">2</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q9" value="3">
+                            <span class="option-text">Very much</span>
+                            <span class="option-score">3</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn" disabled>
+                <span>Calculate Results</span>
+                <div class="btn-loader"></div>
+            </button>
+        </form>
+
+        <div id="results" class="results hidden">
+            <div class="results-header">
+                <h2>Assessment Results</h2>
+            </div>
+            <div class="score-container">
+                <div class="score-circle">
+                    <svg class="score-ring" width="120" height="120">
+                        <circle cx="60" cy="60" r="50" class="score-ring-bg"></circle>
+                        <circle cx="60" cy="60" r="50" class="score-ring-fill" id="scoreRing"></circle>
+                    </svg>
+                    <div class="score-content">
+                        <span id="totalScore" class="score-value">0</span>
+                        <span class="score-max">/ 27</span>
+                    </div>
+                </div>
+                <div class="score-details">
+                    <div class="score-percentage" id="scorePercentage">0%</div>
+                    <div class="score-label">Symptom Severity</div>
+                </div>
+            </div>
+            <div id="interpretation" class="interpretation"></div>
+            <button onclick="resetForm()" class="reset-btn">
+                <span>Take Assessment Again</span>
+            </button>
+        </div>
+
+        <footer>
+            <p><strong>Disclaimer:</strong> This tool is for informational purposes only and does not replace professional medical advice. Always consult with a healthcare provider for proper diagnosis and treatment.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

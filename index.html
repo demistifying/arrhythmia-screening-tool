@@ -11,14 +11,14 @@
     <div class="container">
         <header>
             <div class="header-content">
-                <h1>Arrhythmia Self-Screening Assessment</h1>
-                <p>Please rate how much you've experienced each symptom in the past week</p>
+                <h1>Arrhythmia Self-Screening Questionnaire</h1>
+                <p>Please answer all questions to compute your score</p>
             </div>
             <div class="progress-container">
                 <div class="progress-bar">
                     <div class="progress-fill" id="progressFill"></div>
                 </div>
-                <span class="progress-text" id="progressText">0 of 10 completed</span>
+                <span class="progress-text" id="progressText">0 of 20 completed</span>
             </div>
         </header>
 
@@ -32,245 +32,316 @@
                         <input type="text" name="name" id="userName" placeholder="Enter your name" required>
                     </div>
                 </div>
+
+                <div class="section-header">Section A: Symptoms</div>
+
                 <div class="question-card" data-question="1">
-                    <div class="question-number">1</div>
-                    <h3>Palpitations (feeling of a racing or irregular heartbeat)</h3>
+                    <div class="question-number">A1</div>
+                    <h3>Do you often feel your heart racing, pounding, or skipping beats?</h3>
                     <div class="options">
                         <label class="option-label">
-                            <input type="radio" name="q1" value="0">
-                            <span class="option-text">Not at all</span>
-                            <span class="option-score">0</span>
+                            <input type="radio" name="a1" value="0">
+                            <span class="option-text">No</span>
                         </label>
                         <label class="option-label">
-                            <input type="radio" name="q1" value="1">
-                            <span class="option-text">To some extent</span>
-                            <span class="option-score">1</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q1" value="2">
-                            <span class="option-text">Quite a lot</span>
-                            <span class="option-score">2</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q1" value="3">
-                            <span class="option-text">Very much</span>
-                            <span class="option-score">3</span>
+                            <input type="radio" name="a1" value="1">
+                            <span class="option-text">Yes</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="question-card" data-question="2">
-                    <div class="question-number">2</div>
-                    <h3>Shortness of breath during normal daily activities</h3>
+                    <div class="question-number">A2</div>
+                    <h3>Do you experience episodes of dizziness, light-headedness, or fainting?</h3>
                     <div class="options">
                         <label class="option-label">
-                            <input type="radio" name="q2" value="0">
-                            <span class="option-text">Not at all</span>
-                            <span class="option-score">0</span>
+                            <input type="radio" name="a2" value="0">
+                            <span class="option-text">No</span>
                         </label>
                         <label class="option-label">
-                            <input type="radio" name="q2" value="1">
-                            <span class="option-text">To some extent</span>
-                            <span class="option-score">1</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q2" value="2">
-                            <span class="option-text">Quite a lot</span>
-                            <span class="option-score">2</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q2" value="3">
-                            <span class="option-text">Very much</span>
-                            <span class="option-score">3</span>
+                            <input type="radio" name="a2" value="1">
+                            <span class="option-text">Yes</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="question-card" data-question="3">
-                    <div class="question-number">3</div>
-                    <h3>Dizziness or lightheadedness</h3>
+                    <div class="question-number">A3</div>
+                    <h3>Have you ever had sudden shortness of breath without exertion?</h3>
                     <div class="options">
                         <label class="option-label">
-                            <input type="radio" name="q3" value="0">
-                            <span class="option-text">Not at all</span>
-                            <span class="option-score">0</span>
+                            <input type="radio" name="a3" value="0">
+                            <span class="option-text">No</span>
                         </label>
                         <label class="option-label">
-                            <input type="radio" name="q3" value="1">
-                            <span class="option-text">To some extent</span>
-                            <span class="option-score">1</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q3" value="2">
-                            <span class="option-text">Quite a lot</span>
-                            <span class="option-score">2</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q3" value="3">
-                            <span class="option-text">Very much</span>
-                            <span class="option-score">3</span>
+                            <input type="radio" name="a3" value="1">
+                            <span class="option-text">Yes</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="question-card" data-question="4">
-                    <div class="question-number">4</div>
-                    <h3>Fatigue or tiredness</h3>
+                    <div class="question-number">A4</div>
+                    <h3>Do you experience chest pain, tightness, or discomfort during episodes?</h3>
                     <div class="options">
                         <label class="option-label">
-                            <input type="radio" name="q4" value="0">
-                            <span class="option-text">Not at all</span>
-                            <span class="option-score">0</span>
+                            <input type="radio" name="a4" value="0">
+                            <span class="option-text">No</span>
                         </label>
                         <label class="option-label">
-                            <input type="radio" name="q4" value="1">
-                            <span class="option-text">To some extent</span>
-                            <span class="option-score">1</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q4" value="2">
-                            <span class="option-text">Quite a lot</span>
-                            <span class="option-score">2</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q4" value="3">
-                            <span class="option-text">Very much</span>
-                            <span class="option-score">3</span>
+                            <input type="radio" name="a4" value="1">
+                            <span class="option-text">Yes</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="question-card" data-question="5">
-                    <div class="question-number">5</div>
-                    <h3>Chest discomfort or pain</h3>
+                    <div class="question-number">A5</div>
+                    <h3>Do you notice your heart rhythm feels irregular when checking your pulse?</h3>
                     <div class="options">
                         <label class="option-label">
-                            <input type="radio" name="q5" value="0">
-                            <span class="option-text">Not at all</span>
-                            <span class="option-score">0</span>
+                            <input type="radio" name="a5" value="0">
+                            <span class="option-text">No</span>
                         </label>
                         <label class="option-label">
-                            <input type="radio" name="q5" value="1">
-                            <span class="option-text">To some extent</span>
-                            <span class="option-score">1</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q5" value="2">
-                            <span class="option-text">Quite a lot</span>
-                            <span class="option-score">2</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q5" value="3">
-                            <span class="option-text">Very much</span>
-                            <span class="option-score">3</span>
+                            <input type="radio" name="a5" value="1">
+                            <span class="option-text">Yes</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="question-card" data-question="6">
-                    <div class="question-number">6</div>
-                    <h3>Anxiety or worry related to your heart or health</h3>
+                    <div class="question-number">A6</div>
+                    <h3>Do you feel unusually tired, weak or have reduced capacity (fatigue) associated with your heart or heartbeat?</h3>
                     <div class="options">
                         <label class="option-label">
-                            <input type="radio" name="q6" value="0">
-                            <span class="option-text">Not at all</span>
-                            <span class="option-score">0</span>
+                            <input type="radio" name="a6" value="0">
+                            <span class="option-text">No</span>
                         </label>
                         <label class="option-label">
-                            <input type="radio" name="q6" value="1">
-                            <span class="option-text">To some extent</span>
-                            <span class="option-score">1</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q6" value="2">
-                            <span class="option-text">Quite a lot</span>
-                            <span class="option-score">2</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q6" value="3">
-                            <span class="option-text">Very much</span>
-                            <span class="option-score">3</span>
+                            <input type="radio" name="a6" value="1">
+                            <span class="option-text">Yes</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="question-card" data-question="7">
-                    <div class="question-number">7</div>
-                    <h3>Difficulty sleeping due to heart-related symptoms</h3>
+                    <div class="question-number">A7</div>
+                    <h3>Do you experience anxiety or worry about your heart rhythm or health, especially when you notice symptoms?</h3>
                     <div class="options">
                         <label class="option-label">
-                            <input type="radio" name="q7" value="0">
-                            <span class="option-text">Not at all</span>
-                            <span class="option-score">0</span>
+                            <input type="radio" name="a7" value="0">
+                            <span class="option-text">No</span>
                         </label>
                         <label class="option-label">
-                            <input type="radio" name="q7" value="1">
-                            <span class="option-text">To some extent</span>
-                            <span class="option-score">1</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q7" value="2">
-                            <span class="option-text">Quite a lot</span>
-                            <span class="option-score">2</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q7" value="3">
-                            <span class="option-text">Very much</span>
-                            <span class="option-score">3</span>
+                            <input type="radio" name="a7" value="1">
+                            <span class="option-text">Yes</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="question-card" data-question="8">
-                    <div class="question-number">8</div>
-                    <h3>Weakness or reduced physical capacity</h3>
+                    <div class="question-number">A8</div>
+                    <h3>Do you have difficulty sleeping because of heart-related symptoms (fluttering, palpitations, breathlessness at night)?</h3>
                     <div class="options">
                         <label class="option-label">
-                            <input type="radio" name="q8" value="0">
-                            <span class="option-text">Not at all</span>
-                            <span class="option-score">0</span>
+                            <input type="radio" name="a8" value="0">
+                            <span class="option-text">No</span>
                         </label>
                         <label class="option-label">
-                            <input type="radio" name="q8" value="1">
-                            <span class="option-text">To some extent</span>
-                            <span class="option-score">1</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q8" value="2">
-                            <span class="option-text">Quite a lot</span>
-                            <span class="option-score">2</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q8" value="3">
-                            <span class="option-text">Very much</span>
-                            <span class="option-score">3</span>
+                            <input type="radio" name="a8" value="1">
+                            <span class="option-text">Yes</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="question-card" data-question="9">
-                    <div class="question-number">9</div>
-                    <h3>Swelling in the ankles or legs</h3>
+                    <div class="question-number">A9</div>
+                    <h3>Do you have swelling in your ankles or legs (possible fluid retention) associated with your heart rhythm symptoms?</h3>
                     <div class="options">
                         <label class="option-label">
-                            <input type="radio" name="q9" value="0">
-                            <span class="option-text">Not at all</span>
-                            <span class="option-score">0</span>
+                            <input type="radio" name="a9" value="0">
+                            <span class="option-text">No</span>
                         </label>
                         <label class="option-label">
-                            <input type="radio" name="q9" value="1">
-                            <span class="option-text">To some extent</span>
-                            <span class="option-score">1</span>
+                            <input type="radio" name="a9" value="1">
+                            <span class="option-text">Yes</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="section-header">Section B: Triggers & Frequency</div>
+
+                <div class="question-card" data-question="10">
+                    <div class="question-number">B10</div>
+                    <h3>Do your symptoms occur suddenly and unpredictably (i.e., not only with exertion)?</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="b10" value="0">
+                            <span class="option-text">No</span>
                         </label>
                         <label class="option-label">
-                            <input type="radio" name="q9" value="2">
-                            <span class="option-text">Quite a lot</span>
-                            <span class="option-score">2</span>
+                            <input type="radio" name="b10" value="1">
+                            <span class="option-text">Yes</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-question="11">
+                    <div class="question-number">B11</div>
+                    <h3>Do your symptoms get worse during exercise, stress, or after caffeine or alcohol?</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="b11" value="0">
+                            <span class="option-text">No</span>
                         </label>
                         <label class="option-label">
-                            <input type="radio" name="q9" value="3">
-                            <span class="option-text">Very much</span>
-                            <span class="option-score">3</span>
+                            <input type="radio" name="b11" value="1">
+                            <span class="option-text">Yes</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-question="12">
+                    <div class="question-number">B12</div>
+                    <h3>How often do you experience palpitations or irregular heartbeat?</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="b12" value="0">
+                            <span class="option-text">Rarely (once a month or less)</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="b12" value="1">
+                            <span class="option-text">Occasionally (a few times a month)</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="b12" value="2">
+                            <span class="option-text">Frequently (few times/week)</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="b12" value="3">
+                            <span class="option-text">Daily (or most days)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="section-header">Section C: Risk Factors</div>
+
+                <div class="question-card" data-question="13">
+                    <div class="question-number">C13</div>
+                    <h3>Do you have a history of high blood pressure, diabetes, or thyroid disorder?</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="c13" value="0">
+                            <span class="option-text">No</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="c13" value="1">
+                            <span class="option-text">Yes</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-question="14">
+                    <div class="question-number">C14</div>
+                    <h3>Have you been diagnosed with heart disease, heart failure, or had a heart attack?</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="c14" value="0">
+                            <span class="option-text">No</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="c14" value="1">
+                            <span class="option-text">Yes</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-question="15">
+                    <div class="question-number">C15</div>
+                    <h3>Do you have a family history of sudden cardiac death or arrhythmia (first-degree relative)?</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="c15" value="0">
+                            <span class="option-text">No</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="c15" value="1">
+                            <span class="option-text">Yes</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-question="16">
+                    <div class="question-number">C16</div>
+                    <h3>Do you take medications that may affect heart rhythm (e.g., stimulants, anti-arrhythmic drugs)?</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="c16" value="0">
+                            <span class="option-text">No</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="c16" value="1">
+                            <span class="option-text">Yes</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="section-header">Section D: Lifestyle</div>
+
+                <div class="question-card" data-question="17">
+                    <div class="question-number">D17</div>
+                    <h3>How many cups of coffee/tea/energy drinks do you consume daily?</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="d17" value="0">
+                            <span class="option-text">None</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="d17" value="1">
+                            <span class="option-text">1-2</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="d17" value="2">
+                            <span class="option-text">3-4</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="d17" value="3">
+                            <span class="option-text">5+</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-question="18">
+                    <div class="question-number">D18</div>
+                    <h3>How often do you consume alcohol?</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="d18" value="0">
+                            <span class="option-text">Never</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="d18" value="1">
+                            <span class="option-text">Occasionally</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="d18" value="2">
+                            <span class="option-text">Frequently</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-question="19">
+                    <div class="question-number">D19</div>
+                    <h3>Do you smoke or use tobacco products?</h3>
+                    <div class="options">
+                        <label class="option-label">
+                            <input type="radio" name="d19" value="0">
+                            <span class="option-text">No</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="d19" value="1">
+                            <span class="option-text">Yes</span>
                         </label>
                     </div>
                 </div>
@@ -279,6 +350,7 @@
             <input type="hidden" name="total-score" id="hiddenScore">
             <input type="hidden" name="risk-level" id="hiddenRiskLevel">
             <input type="hidden" name="assessment-date" id="hiddenDate">
+            <input type="hidden" name="warning-flags" id="hiddenWarningFlags">
             <button type="submit" class="submit-btn" id="submitBtn" disabled>
                 <span>Calculate Results</span>
                 <div class="btn-loader"></div>
@@ -297,7 +369,7 @@
                     </svg>
                     <div class="score-content">
                         <span id="totalScore" class="score-value">0</span>
-                        <span class="score-max">/ 27</span>
+                        <span class="score-max">/ 24</span>
                     </div>
                 </div>
                 <div class="score-details">

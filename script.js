@@ -91,8 +91,16 @@ function handleSubmit(e) {
         
         const userName = document.getElementById('userName').value.trim();
         
-        // Check if all questions are answered (should not happen due to button state)
-        if (answeredQuestions < 10 || !userName) {
+        // Recount answered questions for validation
+        let validationCount = 0;
+        if (userName) validationCount++;
+        for (let i = 1; i <= 9; i++) {
+            const answer = formData.get(`q${i}`);
+            if (answer !== null) validationCount++;
+        }
+        
+        // Check if all questions are answered
+        if (validationCount < 10 || !userName) {
             showNotification('Please complete all fields before submitting.', 'error');
             submitBtn.classList.remove('loading');
             return;
